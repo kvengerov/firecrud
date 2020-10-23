@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Orders</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid *ngIf="orders">
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <span>*swipe item</span>
+        <ion-list>
+          <ion-item-sliding *ngFor="let order of orders">
+
+            <ion-item>
+              <ion-label>
+                <h3>Name: {{ order.payload.doc.data().name }}</h3>
+                <h3>Amount: {{ order.payload.doc.data().amount }}</h3>
+                <h3>Client: {{ order.payload.doc.data().client }}</h3>
+                <h3 *ngIf="order.payload.doc.data().complete"
+                    [ngClass]="{ complete: order.payload.doc.data().complete }">Completed
+                </h3>
+              </ion-label>
+            </ion-item>
+
+            <ion-item-options side="start" (click)="markCompleted(order)">
+              <ion-item-option color="primary">Complete</ion-item-option>
+            </ion-item-options>
+
+            <ion-item-options side="end" (click)="deleteOrder(order)">
+              <ion-item-option color="danger">Delete</ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
