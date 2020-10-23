@@ -37,14 +37,11 @@ export class CreateOrderPage implements OnInit {
     this.myOrders = [];
     this.authService.userEmail.subscribe(email => {
       this.form.patchValue({ client: email });
-      this.afs.collection('orders')
-        .get()
+      this.afs.collection('orders', ref => ref.where('client', '==', email)).get()
         .subscribe(ss => {
-          ss.docs.forEach((doc) => {
+          ss.docs.forEach(doc => {
             const data = doc.data();
-            if (data.client === email) {
-              this.myOrders.push(data);
-            }
+            this.myOrders.push(data);
           });
         });
     });
